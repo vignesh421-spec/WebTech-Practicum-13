@@ -1,0 +1,315 @@
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>StyleNest - Task Manager</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <style> 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        } 
+ 
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f8f5f2; 
+        } 
+ 
+        header { 
+            background: #222; 
+            color: white; 
+            text-align: center; 
+            padding: 20px; 
+        } 
+ 
+        header h1 { 
+            color: #f4b183; 
+        } 
+ 
+        nav { 
+            background: #333; 
+        } 
+ 
+        nav ul { 
+            display: flex; 
+            justify-content: center; 
+            list-style: none; 
+        } 
+ 
+        nav a { 
+            display: block; 
+            color: white; 
+            padding: 15px 25px; 
+            text-decoration: none; 
+        } 
+ 
+        nav a:hover { 
+            background: #f4b183; 
+            color: black; 
+        } 
+ 
+        .container { 
+            max-width: 550px; 
+            margin: 30px auto; 
+            padding: 25px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 8px #ccc; 
+        } 
+ 
+        h2 { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            color: #333; 
+        } 
+ 
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-top: 10px; 
+            border: 1px solid #aaa; 
+            border-radius: 5px; 
+        } 
+ 
+        button { 
+            background: #333; 
+            color: white; 
+            padding: 10px 15px; 
+            border: none; 
+            margin: 5px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+        } 
+ 
+        button:hover { 
+            background: #f4b183; 
+            color: black; 
+        } 
+ 
+        .add-btn { 
+            width: 100%; 
+            margin-top: 15px; 
+        } 
+ 
+        #taskList { 
+            margin-top: 20px; 
+            list-style: none; 
+        } 
+ 
+        #taskList li { 
+            background: #f8f5f2; 
+            padding: 12px; 
+            margin-top: 10px; 
+            border-radius: 5px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            flex-wrap: wrap; 
+        } 
+ 
+        .task-buttons { 
+            display: flex; 
+            gap: 5px; 
+        } 
+ 
+        .edit-btn { 
+            background: #2874a6; 
+        } 
+ 
+        .delete-btn { 
+            background: #c0392b; 
+        } 
+ 
+        #result { 
+            margin-top: 15px; 
+            text-align: center; 
+            font-weight: bold; 
+        } 
+ 
+        footer { 
+            background: #222; 
+            color: white; 
+            text-align: center; 
+            padding: 15px; 
+            margin-top: 30px; 
+        } 
+ 
+        @media(max-width: 600px) { 
+            nav ul { 
+                flex-direction: column; 
+                text-align: center; 
+            } 
+ 
+            .container { 
+                margin: 20px; 
+                padding: 15px; 
+            } 
+ 
+            #taskList li { 
+                flex-direction: column; 
+                align-items: flex-start; 
+            } 
+        } 
+    </style> 
+</head> 
+ 
+<body> 
+ 
+    <!-- Header --> 
+    <header> 
+        <h1>StyleNest</h1> 
+        <p>Your Style, Your Choice</p> 
+    </header> 
+ 
+    <!-- Navigation --> 
+    <nav> 
+        <ul> 
+            <li><a href="#">Home</a></li> 
+            <li><a href="#">Men</a></li> 
+            <li><a href="#">Women</a></li> 
+            <li><a href="#">Offers</a></li> 
+            <li><a href="#">Contact</a></li> 
+        </ul> 
+    </nav> 
+ 
+    <!-- Task Manager --> 
+    <div class="container"> 
+ 
+        <h2>StyleNest Task Manager</h2> 
+ 
+        <label for="Task">Enter Your Task:</label> 
+ 
+        <input type="text" id="taskInput" 
+        placeholder="Enter a task"> 
+ 
+        <button class="add-btn" onclick="addTask()"> 
+            Add Task 
+        </button> 
+ 
+        <p id="result"></p> 
+ 
+        <h3>My Tasks</h3> 
+ 
+        <ul id="taskList"></ul> 
+ 
+    </div> 
+ 
+    <!-- Footer --> 
+    <footer> 
+        <p>© 2026 StyleNest | Fashion for Everyone</p> 
+    </footer> 
+ 
+    <!-- JavaScript CRUD Operations --> 
+    <script> 
+ 
+        // Array to store tasks 
+        let tasks = []; 
+ 
+        // CREATE - Add a new task 
+        function addTask() { 
+ 
+            let input = document.getElementById("taskInput"); 
+            let task = input.value.trim(); 
+ 
+            if (task === "") { 
+                showMessage("Please enter a task.", "red"); 
+            } 
+            else { 
+                tasks.push(task); 
+ 
+                input.value = ""; 
+ 
+                displayTasks(); 
+ 
+                showMessage("Task added successfully!", "green"); 
+            } 
+        } 
+ 
+        // READ - Display all tasks 
+        function displayTasks() { 
+ 
+            let list = document.getElementById("taskList"); 
+ 
+            list.innerHTML = ""; 
+ 
+            tasks.forEach(function(task, index) { 
+ 
+                let li = document.createElement("li"); 
+ 
+                let span = document.createElement("span"); 
+                span.textContent = task; 
+ 
+                let buttons = document.createElement("div"); 
+                buttons.className = "task-buttons"; 
+ 
+                let editBtn = document.createElement("button"); 
+                editBtn.textContent = "Edit"; 
+                editBtn.className = "edit-btn"; 
+                editBtn.onclick = function() { 
+                    editTask(index); 
+                }; 
+ 
+                let deleteBtn = document.createElement("button"); 
+                deleteBtn.textContent = "Delete"; 
+                deleteBtn.className = "delete-btn"; 
+                deleteBtn.onclick = function() { 
+                    deleteTask(index); 
+                }; 
+ 
+                buttons.appendChild(editBtn); 
+                buttons.appendChild(deleteBtn); 
+ 
+                li.appendChild(span); 
+                li.appendChild(buttons); 
+ 
+                list.appendChild(li); 
+            }); 
+        } 
+ 
+        // UPDATE - Edit an existing task 
+        function editTask(index) { 
+ 
+            let updatedTask = prompt("Enter updated task:", tasks[index]); 
+ 
+            if (updatedTask === null) { 
+                return; 
+            } 
+ 
+            updatedTask = updatedTask.trim(); 
+ 
+            if (updatedTask === "") { 
+                showMessage("Task cannot be empty.", "red"); 
+            } 
+            else { 
+                tasks[index] = updatedTask; 
+ 
+                displayTasks(); 
+ 
+                showMessage("Task updated successfully!", "green"); 
+            } 
+        } 
+ 
+        // DELETE - Remove a task 
+        function deleteTask(index) { 
+ 
+            tasks.splice(index, 1); 
+ 
+            displayTasks(); 
+ 
+            showMessage("Task deleted successfully!", "green"); 
+        } 
+ 
+        // Display messages 
+        function showMessage(message, color) { 
+ 
+            let result = document.getElementById("result"); 
+ 
+            result.style.color = color; 
+            result.textContent = message; 
+        } 
+</script> 
+</body> 
+</html> 
